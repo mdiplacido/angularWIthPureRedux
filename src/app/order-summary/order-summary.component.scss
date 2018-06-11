@@ -1,0 +1,63 @@
+$cart-side-padding: 30px;
+@mixin text-left {
+  text-align: left;
+}
+
+@mixin text-right {
+  text-align: right;
+}
+
+.cart {
+  a {
+    color: lightblue;
+  }
+}
+
+.cart-box {
+  background-color: grey;
+  padding-left: $cart-side-padding;
+  padding-right: $cart-side-padding;
+}
+
+.upper-box {
+  padding-top: 30px;
+  padding-bottom: 15px;
+}
+
+.lower-box {
+  margin-top: 3px;
+  padding-top: 15px;
+  padding-bottom: 30px;
+}
+
+.cart-row {
+  margin: 5px 0px;
+}
+
+.cart-line-value {
+  @include text-right();
+}
+
+.cart-text-right {
+  float: right;
+}
+
+.cart-title {
+  margin-bottom: 12px;
+}
+
+.cart-tax-info {
+  @include text-right();
+  color: lightblue;
+  font-size: 0.875em;
+}
+
+.cart-terms-conditions {
+  font-size: 0.875em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.agreement-bold {
+  font-weight: 600;
+}

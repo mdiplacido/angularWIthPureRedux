@@ -1,0 +1,142 @@
+<div class="cart">
+  <div class="cart-title">
+    <h2 class="c-heading-5 step-header" i18n="text for order summary">Order summary</h2>
+  </div>
+
+  <!-- Upper Box -->
+  <div class="cart-box upper-box">
+    <div class="cart-row">
+      <span class="cart-line-text" i18n="text for items">
+        Item(s):
+      </span>
+      <span class="cart-line-value cart-text-right">
+        {{ data?.quantity }}
+      </span>
+    </div>
+
+    <div style="clear: both"></div>
+
+    <div class="cart-row">
+      <span class="cart-line-text" i18n="text for subtotal amount" *ngIf="viewMode !== 'checkout' && viewMode !== 'increase-quantity'">
+        Subtotal:
+      </span>
+      <span class="cart-line-text" i18n="text for subtotal amount" *ngIf="viewMode === 'checkout'">
+        <strong>Subtotal*:</strong>
+      </span>
+      <span class="cart-line-value cart-text-right" *ngIf="viewMode !== 'increase-quantity'">
+        {{ data?.subtotal | currency: data?.currencyCode }}
+      </span>
+    </div>
+
+    <div class="cart-row" *ngIf="viewMode === 'checkout' && !data.showQuotePriceDisclosure">
+      <span class="cart-line-text">
+        <small>
+          <span i18n="text for amount before taxes">*before applicable taxes</span>
+        </small>
+      </span>
+    </div>
+    <div class="cart-row" *ngIf="(viewMode === 'checkout' || viewMode === 'increase-quantity') && data.showQuotePriceDisclosure">
+      <span class="cart-line-text" *ngIf="viewMode !== 'increase-quantity'">
+        <small>
+          <span i18n="text for quote tax amount">
+            *Subtotal does not include any applicable taxes or fees except where specifically displayed on the invoice. Product prices
+            may vary depending upon the date of purchase and currency of payment.</span>
+        </small>
+      </span>
+      <span class="cart-line-text" *ngIf="viewMode === 'increase-quantity'">
+        <small>
+          <span i18n="increase quantity disclaimer">
+            *You already have subscriptions for all the items. The quantity will be added to your existing subscriptions.
+          </span>
+        </small>
+      </span>
+    </div>
+
+    <div style="clear: both"></div>
+  </div>
+
+  <!-- Lower Box -->
+  <div class="cart-box lower-box" *ngIf="viewMode !== 'checkout' && viewMode !== 'increase-quantity'">
+    <div class="cart-row">
+      <span class="cart-line-text" i18n="text for tax amount">
+        Tax:
+      </span>
+      <span class="cart-line-value cart-text-right" *ngIf="!!data?.tax">
+        {{ data?.tax | currency: data?.currencyCode }}
+      </span>
+    </div>
+
+    <div style="clear: both"></div>
+
+    <div class="cart-row">
+      <span class="cart-line-text" i18n="text for total amount">
+        <b>Total:</b>
+      </span>
+      <span class="cart-line-value cart-text-right">
+        <b>{{ data?.total | currency: data?.currencyCode }}</b>
+      </span>
+    </div>
+
+    <div style="clear: both"></div>
+
+    <div class="cart-row cart-tax-info">
+      <a target="_blank" bsxFwLink="849611" i18n="text for tax information link">Tax - get more info</a>
+    </div>
+  </div>
+
+  <!-- Tax & Place Order -->
+  <div class="cart-terms-conditions" *ngIf="viewMode === 'place-order' && hasActionButton">
+    <p i18n="text for place order terms and conditions" *ngIf="!shouldShowNewAgreement">
+      <span>By selecting
+        <span class="agreement-bold">Place order</span> you agree to the
+        <a target="_blank" bsxFwLink="850794">Microsoft Store for Business and Education Services Agreement</a> and
+          <a target="_blank" bsxFwLink="521839">Privacy Statement</a>.</span>
+      <span *ngIf="data.showSubscriptionMsg">Your subscription will begin, and you'll be billed immediately, and thereafter at the frequency noted. Cancel from
+        <!-- <a target="_blank" [routerLink]="['/manage/inventory']">Manage</a>-->
+        .</span>
+    </p>
+    <p i18n="text for accept agreement and place order agreement" *ngIf="shouldShowNewAgreement && !isExistingAgreement">
+      <span>By selecting
+        <span class="agreement-bold">Accept agreement & place order</span> you accept the
+        <a href="javascript: void(0)" (click)="openAgreement()">Microsoft Customer Agreement</a>
+          <span *ngIf="isHardwareProduct">, the
+            <a target="_blank" href="">Hardware Terms</a>,</span>
+          <span *ngIf="isWarrantyProduct">, the
+            <a target="_blank" href="http://download.microsoft.com/download/D/B/2/DB244C33-E6D1-4842-9B5C-BE6A068F3023/MSFT_USA_EN_Commercial_Complete_for_Business_Termsandconditions_V3.pdf 
+          ">Microsoft Complete for Business terms and conditions</a>,</span>
+          and
+          <a target="_blank" bsxFwLink="521839">privacy statement</a>
+            on behalf of your organization and represent you have the authority to do so.</span>
+      <span *ngIf="data.showSubscriptionMsg">If you order a subscription, your subscription will begin, and you'll be billed immediately. Cancel from
+        <!-- <a target="_blank" [routerLink]="['/manage/inventory']">Manage</a> -->
+      </span>
+    </p>
+    <p i18n="text for accept agreement and place order agreement" *ngIf="shouldShowNewAgreement && isExistingAgreement">
+      <span>The
+        <a href="javascript: void(0)" (click)="openAgreement()">Microsoft Customer Agreement</a> and
+          <a target="_blank" bsxFwLink="521839">privacy statement</a> your organization accepted governs this purchase.</span>
+      <span *ngIf="data.showSubscriptionMsg">If you order a subscription, your subscription will begin, and you'll be billed immediately. Cancel from
+        <!-- <a target="_blank" [routerLink]="['/manage/inventory']">Manage</a> -->
+        .</span>
+    </p>
+</div>
+
+<div *ngIf="hasActionButton">
+  <button id="actionButton" type="submit" data-bi-bhvr="80" class="c-button" (click)="onSubmit()" [disabled]="!isActionButtonEnabled">
+    <span i18n="text for checkout button" *ngIf="viewMode === 'checkout'">Checkout</span>
+    <span i18n="text for placeOrder button" *ngIf="viewMode === 'place-order' && (!shouldShowNewAgreement || isExistingAgreement)">Place order</span>
+    <span i18n=" text for accept agreement and place order button " *ngIf="viewMode==='place-order' && shouldShowNewAgreement && !isExistingAgreement">Accept agreement & place order</span>
+    <span i18n="text for increaseQuantity button " *ngIf="viewMode==='increase-quantity' ">add seats</span>
+  </button>
+  <!-- <button class="c-button f-lightweight" *ngFor="let btn of additionalActionButtons" (click)="btn.onClick()">{{btn.text}}</button> -->
+</div>
+
+<div class="cart-terms-conditions" *ngIf="viewMode==='checkout' && hasActionButton
+      && shouldShowNewAgreement && !isExistingAgreement">
+  <p i18n="text for checkout agreement">
+    <span>We've changed our agreement since your last order. When you place this order, you must accept the
+      <a href="javascript: void(0)" (click)="openAgreement()">Microsoft Customer Agreement</a>.
+    </span>
+  </p>
+  </div>
+  </div>
