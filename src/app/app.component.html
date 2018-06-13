@@ -1,4 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <h1>Simple Redux Angular app</h1>
 
-<app-order-summary></app-order-summary>
+<button (click)="toggle()">Toggle visibility</button>
+
+<app-order-summary *ngIf="visible"></app-order-summary>

@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { CounterReducerService } from '../store/counter-reducer.service';
+import { CounterActions } from './../store/counter.reducer';
+
+import * as fromCounterActions from '../store/counter.actions';
 
 @Component({
   selector: 'app-order-summary',
@@ -24,7 +30,11 @@ export class OrderSummaryComponent implements OnInit {
 
   viewMode = 'checkout';
 
-  constructor() { }
+  currentCount$: Observable<number>;
+
+  constructor(private readonly counterService: CounterReducerService) {
+    this.currentCount$ = this.counterService.select();
+  }
 
   ngOnInit() {
   }
@@ -35,5 +45,13 @@ export class OrderSummaryComponent implements OnInit {
 
   onSubmit(): void {
     // no-op
+  }
+
+  increment(): void {
+    this.counterService.counterStore.dispatch(fromCounterActions.IncrementAction());
+  }
+
+  decrement(): void {
+    this.counterService.counterStore.dispatch(fromCounterActions.DecrementAction());
   }
 }
