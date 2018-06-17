@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
         "DEVTOOLS",
-        "Injectable"
+        "Injectable",
+        "Upsert",
+        "ngrx"
     ]
 }
