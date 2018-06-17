@@ -1,4 +1,6 @@
-# AngularWIthPureRedux
+# AngularWithPureRedux
+
+Using https://github.com/ngrx/platform/tree/master/docs/schematics to quickly setup NGRX scaffolding.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.5.
 
